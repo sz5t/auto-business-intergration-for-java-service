@@ -360,15 +360,15 @@ export class FormResolverComponent extends CnComponentBase implements OnInit, On
     if (ajaxData) {
       console.log('load', ajaxData);
       console.log('异步加载表单数据load', ajaxData);
-      if (ajaxData.Data) {
-        console.log('待赋值的表单数据', ajaxData.Data);
-        this.setFormValue(ajaxData.Data[0]);
+      if (ajaxData.data) {
+        console.log('待赋值的表单数据', ajaxData.data);
+        this.setFormValue(ajaxData.data[0]);
         // 给主键赋值
         if (this.config.keyId) {
-          this._tempParameters['_id'] = ajaxData.Data[0][this.config.keyId];
+          this._tempParameters['_id'] = ajaxData.data[0][this.config.keyId];
         } else {
           if (ajaxData.Data[0]['Id']) {
-            this._tempParameters['_id'] = ajaxData.Data[0]['Id'];
+            this._tempParameters['_id'] = ajaxData.data[0]['Id'];
           }
         }
 
@@ -478,12 +478,12 @@ export class FormResolverComponent extends CnComponentBase implements OnInit, On
       const url = this._buildURL(postConfig[i].url);
       const body = this._buildParameters(postConfig[i].params, postConfig[i].batch ? postConfig[i].batch : false);
       const res = await this._post(url, body);
-      if (res && res.Status === 200) {
+      if (res && res.status === 200) {
         result = true;
         this.message.create('success', '保存成功');
         // 发送消息 刷新其他界面
       } else {
-        this.message.create('error', res.Message);
+        this.message.create('error', res.message);
       }
     }
     return result;
@@ -497,12 +497,12 @@ export class FormResolverComponent extends CnComponentBase implements OnInit, On
       const url = this._buildURL(putConfig[i].url);
       const body = this._buildParameters(putConfig[i].params, putConfig[i].batch ? putConfig[i].batch : false);
       const res = await this._put(url, body);
-      if (res && res.Status === 200) {
+      if (res && res.status === 200) {
         result = true;
         this.message.create('success', '保存成功');
         // 发送消息 刷新其他界面
       } else {
-        this.message.create('error', res.Message);
+        this.message.create('error', res.message);
       }
     }
     return result;
