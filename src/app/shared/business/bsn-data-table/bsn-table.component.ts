@@ -266,33 +266,33 @@ export class BsnTableComponent extends CnComponentBase implements OnInit, OnDest
         // console.log('url params', params);
         (async () => {
             const loadData = await this._load(url, params);
-            if (loadData && loadData.Status === 200) {
-                if (loadData.Data && loadData.Data.Rows) {
+            if (loadData && loadData.status === 200) {
+                if (loadData.data && loadData.data.rows) {
                     // 设置聚焦ID
                     // 默认第一行选中，如果操作后有focusId则聚焦ID为FocusId
                     let focusId;
                     if (loadData.FocusId) {
                         focusId = loadData.FocusId;
                     } else {
-                        loadData.Data.Rows.length > 0 && (focusId = loadData.Data.Rows[0].Id);
+                        loadData.data.rows.length > 0 && (focusId = loadData.data.rows[0].Id);
                     }
-                    loadData.Data.Rows.forEach((row, index) => {
+                    loadData.data.rows.forEach((row, index) => {
                         row['key'] = row[this.config.keyId] ? row[this.config.keyId] : 'Id';
                         if (row.Id === focusId) {
                             this.selectRow(row);
                         }
-                        if (loadData.Data.Page === 1) {
+                        if (loadData.data.page === 1) {
                             row['_serilize'] = index + 1;
                         } else {
-                            row['_serilize'] = (loadData.Data.Page - 1) * loadData.Data.PageSize + index + 1;
+                            row['_serilize'] = (loadData.data.page - 1) * loadData.data.pageSize + index + 1;
                         }
                     });
-                    this._updateEditCacheByLoad(loadData.Data.Rows);
-                    this.dataList = loadData.Data.Rows;
-                    this.total = loadData.Data.Total;
+                    this._updateEditCacheByLoad(loadData.data.rows);
+                    this.dataList = loadData.data.rows;
+                    this.total = loadData.data.total;
                 } else {
                     this._updateEditCacheByLoad([]);
-                    this.dataList = loadData.Data;
+                    this.dataList = loadData.data;
                     this.total = 0;
                 }
             } else {
